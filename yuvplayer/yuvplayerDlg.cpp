@@ -68,6 +68,7 @@ typedef struct
 
 #ifdef SUPPORT_PCRE
 static const size_info_t size_info[] = {
+	{ L"4K", 3840, 2160, ID_SIZE_4K },
 	{ L"1080p", 1920, 1080, ID_SIZE_HD },
 	{ L"720p", 1280, 720, ID_SIZE_SD },
 	{ L"wvga", 832, 480, ID_SIZE_WVGA },
@@ -82,6 +83,9 @@ static const size_info_t size_info[] = {
 #else
 // in near future, update me to PCRE
 static const size_info_t size_info[] = {
+	{ L"3840x2160", 3840, 2160, ID_SIZE_4K },
+	{ L"4K", 3840, 2160, ID_SIZE_4K },
+
 	{ L"1920x1080", 1920, 1080, ID_SIZE_HD },
 	{ L"1080p", 1920, 1080, ID_SIZE_HD },
 
@@ -362,6 +366,11 @@ void CyuvplayerDlg::OnSizeChange(UINT nID )
 			menu->CheckMenuItem(i,	MF_UNCHECKED);
 
 	switch( nID ){
+		case ID_SIZE_4K:
+			menu->CheckMenuItem(ID_SIZE_4K, MF_CHECKED);
+			Resize(3840, 2160);
+			return;
+
 		case ID_SIZE_HD:
 			menu->CheckMenuItem( ID_SIZE_HD,	MF_CHECKED);
 			Resize( 1920, 1080 );
@@ -523,7 +532,17 @@ void CyuvplayerDlg::OnColor(UINT nID )
 			menu->CheckMenuItem( ID_COLOR_YUV420_10BE, MF_CHECKED);
 			m_color = YUV420_10BE;
 			break;
-        
+
+		case ID_COLOR_Y_10LE:
+			menu->CheckMenuItem(ID_COLOR_Y_10LE, MF_CHECKED);
+			m_color = Y_10LE;
+			break;
+
+		case ID_COLOR_Y_10BE:
+			menu->CheckMenuItem(ID_COLOR_Y_10BE, MF_CHECKED);
+			m_color = Y_10BE;
+			break;
+		
 		case ID_COLOR_YUV444:
 			menu->CheckMenuItem( ID_COLOR_YUV444, MF_CHECKED);
 			m_color = YUV444;
@@ -581,6 +600,16 @@ void CyuvplayerDlg::OnColor(UINT nID )
 			m_color = RGB16;
 			break;
 
+		case ID_COLOR_RAW12:
+			menu->CheckMenuItem(ID_COLOR_RAW12, MF_CHECKED);
+			m_color = RAW12;
+			break;
+
+		case ID_COLOR_RAW16:
+			menu->CheckMenuItem(ID_COLOR_RAW16, MF_CHECKED);
+			m_color = RAW16;
+			break;
+
 		// grey
 		default:
 			menu->CheckMenuItem( ID_COLOR_Y     , MF_CHECKED);
@@ -614,7 +643,8 @@ void CyuvplayerDlg::UpdateParameter()
 	else 
 		frame_size_uv = 0;
     
-    if ( m_color == YUV420_10LE || m_color == YUV420_10BE)
+    if ( m_color == YUV420_10LE || m_color == YUV420_10BE || m_color == Y_10LE || m_color == Y_10BE
+		 || m_color == RAW12 || m_color == RAW16)
     {
         frame_size_y  *= 2;
         frame_size_uv *= 2; 
@@ -891,6 +921,52 @@ void CyuvplayerDlg::yuv2rgb(void)
 		}	
 	}
 
+	else if (m_color == Y_10LE || m_color == Y_10BE) {
+		for (j = 0; j < height; j++) {
+			cur = line;
+			for (i = 0; i < width; i++) {
+
+				if (m_color == Y_10BE)
+				{
+					(*cur) = ((y[j*width * 2 + i * 2] << 8) | y[j*width * 2 + i * 2 + 1]) >> 2; cur++;
+					(*cur) = ((y[j*width * 2 + i * 2] << 8) | y[j*width * 2 + i * 2 + 1]) >> 2; cur++;
+					(*cur) = ((y[j*width * 2 + i * 2] << 8) | y[j*width * 2 + i * 2 + 1]) >> 2; cur += 2;
+				}
+				else
+				{
+					(*cur) = ((y[j*width * 2 + i * 2 + 1] << 8) | y[j*width * 2 + i * 2]) >> 2; cur++;
+					(*cur) = ((y[j*width * 2 + i * 2 + 1] << 8) | y[j*width * 2 + i * 2]) >> 2; cur++;
+					(*cur) = ((y[j*width * 2 + i * 2 + 1] << 8) | y[j*width * 2 + i * 2]) >> 2; cur += 2;
+				}
+			}
+			line += t_width << 2;
+		}
+	}
+
+	else if (m_color == RAW12) {
+		for (j = 0; j < height; j++) {
+			cur = line;
+			for (i = 0; i < width; i++) {
+				(*cur) = ((y[j*width * 2 + i * 2 + 1] << 8) | y[j*width * 2 + i * 2]) >> 4; cur++;
+				(*cur) = ((y[j*width * 2 + i * 2 + 1] << 8) | y[j*width * 2 + i * 2]) >> 4; cur++;
+				(*cur) = ((y[j*width * 2 + i * 2 + 1] << 8) | y[j*width * 2 + i * 2]) >> 4; cur += 2;
+			}
+			line += t_width << 2;
+		}
+	}
+
+	else if (m_color == RAW16) {
+		for (j = 0; j < height; j++) {
+			cur = line;
+			for (i = 0; i < width; i++) {
+				(*cur) = y[j*width * 2 + i * 2 + 1]; cur++;
+				(*cur) = y[j*width * 2 + i * 2 + 1]; cur++;
+				(*cur) = y[j*width * 2 + i * 2 + 1]; cur += 2;
+			}
+			line += t_width << 2;
+		}
+	}
+
 	else { // YYY
 		for( j = 0 ; j < height ; j++ ){
 			cur = line;
@@ -1047,6 +1123,10 @@ BOOL CyuvplayerDlg::PreTranslateMessage(MSG* pMsg)
 			case 'o':
 			case 'O':
 				OnOpen();
+				return TRUE;
+
+			case '4':
+				OnSizeChange(ID_SIZE_4K);
 				return TRUE;
 
 			case 'h':

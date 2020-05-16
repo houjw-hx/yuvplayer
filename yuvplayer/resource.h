@@ -55,7 +55,11 @@
 #define ID_COLOR_RGB32                  40011
 #define ID_COLOR_RGB24                  40012
 #define ID_COLOR_RGB16                  40013
-#define ID_COLOR_END                    40013
+#define ID_COLOR_Y_10LE                 40014
+#define ID_COLOR_Y_10BE                 40015
+#define ID_COLOR_RAW12                  40016
+#define ID_COLOR_RAW16                  40017
+#define ID_COLOR_END                    40017
 
 #define ID_SIZE_START                   40020
 #define ID_SIZE_HD                      40020
@@ -67,7 +71,8 @@
 #define ID_SIZE_QCIF                    40026
 #define ID_SIZE_192X256                 40027
 #define ID_SIZE_CUSTOM                  40028
-#define ID_SIZE_END                     40028
+#define ID_SIZE_4K                      40029
+#define ID_SIZE_END                     40029
 
 #define ID_ZOOM_START                   40040
 #define ID_ZOOM_41                      40040
