@@ -994,7 +994,7 @@ void CyuvplayerDlg::yuv2rgb(void)
 			}
 			bayer8_line += width;
 		}
-		v4lconvert_bayer_to_bgr24(bayer8, rgb24, width, height, V4L2_PIX_FMT_SBGGR8);
+		v4lconvert_bayer_to_rgb24(bayer8, rgb24, width, height, V4L2_PIX_FMT_SRGGB8);
 		unsigned char* rgb24_line = rgb24;
 		unsigned char* rgb24_cur = rgb24;
 		for (j = 0; j < height; j++) {
@@ -1029,7 +1029,7 @@ void CyuvplayerDlg::yuv2rgb(void)
 			}
 			bayer8_line += width;
 		}
-		v4lconvert_bayer_to_bgr24(bayer8, rgb24, width, height, V4L2_PIX_FMT_SBGGR8);
+		v4lconvert_bayer_to_rgb24(bayer8, rgb24, width, height, V4L2_PIX_FMT_SRGGB8);
 		unsigned char* rgb24_line = rgb24;
 		unsigned char* rgb24_cur = rgb24;
 		for (j = 0; j < height; j++) {
