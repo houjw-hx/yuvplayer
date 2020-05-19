@@ -121,6 +121,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="v4lconvert.cpp" />
     <ClCompile Include="yuvplayer.cpp" />
     <ClCompile Include="yuvplayerDlg.cpp" />
   </ItemGroup>
@@ -130,6 +131,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SizeDialog.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="v4lconvert.h" />
     <ClInclude Include="yuvplayer.h" />
     <ClInclude Include="yuvplayerDlg.h" />
   </ItemGroup>

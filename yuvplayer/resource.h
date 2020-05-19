@@ -59,7 +59,9 @@
 #define ID_COLOR_Y_10BE                 40015
 #define ID_COLOR_RAW12                  40016
 #define ID_COLOR_RAW16                  40017
-#define ID_COLOR_END                    40017
+#define ID_COLOR_BAYERRAW12             40018
+#define ID_COLOR_BAYERRAW16             40019
+#define ID_COLOR_END                    40019
 
 #define ID_SIZE_START                   40020
 #define ID_SIZE_HD                      40020

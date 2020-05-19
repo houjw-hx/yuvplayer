@@ -217,9 +217,12 @@ BEGIN
         MENUITEM "RGB32",                       ID_COLOR_RGB32
         MENUITEM "RGB24",                       ID_COLOR_RGB24
         MENUITEM "RGB16",                       ID_COLOR_RGB16
-		MENUITEM SEPARATOR
-		MENUITEM "RAW12",						ID_COLOR_RAW12
-		MENUITEM "RAW16",						ID_COLOR_RAW16
+        MENUITEM SEPARATOR
+        MENUITEM "RAW12",                       ID_COLOR_RAW12
+        MENUITEM "RAW16",                       ID_COLOR_RAW16
+        MENUITEM SEPARATOR
+        MENUITEM "BAYERRAW12",                  ID_COLOR_BAYERRAW12
+        MENUITEM "BAYERRAW16",                  ID_COLOR_BAYERRAW16
 		
     END
     POPUP "&Zoom"

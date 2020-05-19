@@ -37,6 +37,7 @@
 
 #include "SizeDialog.h"
 #include "GoDialog.h"
+#include "v4lconvert.h"
 
 #include <math.h>
 #include <io.h>
@@ -610,6 +611,16 @@ void CyuvplayerDlg::OnColor(UINT nID )
 			m_color = RAW16;
 			break;
 
+		case ID_COLOR_BAYERRAW12:
+			menu->CheckMenuItem(ID_COLOR_BAYERRAW12, MF_CHECKED);
+			m_color = BAYERRAW12; 
+			break;
+
+		case ID_COLOR_BAYERRAW16:
+			menu->CheckMenuItem(ID_COLOR_BAYERRAW16, MF_CHECKED);
+			m_color = BAYERRAW16;
+			break;
+
 		// grey
 		default:
 			menu->CheckMenuItem( ID_COLOR_Y     , MF_CHECKED);
@@ -644,7 +655,7 @@ void CyuvplayerDlg::UpdateParameter()
 		frame_size_uv = 0;
     
     if ( m_color == YUV420_10LE || m_color == YUV420_10BE || m_color == Y_10LE || m_color == Y_10BE
-		 || m_color == RAW12 || m_color == RAW16)
+		 || m_color == RAW12 || m_color == RAW16 || m_color == BAYERRAW12 || m_color == BAYERRAW16)
     {
         frame_size_y  *= 2;
         frame_size_uv *= 2; 
@@ -965,6 +976,76 @@ void CyuvplayerDlg::yuv2rgb(void)
 			}
 			line += t_width << 2;
 		}
+	}
+
+	else if (m_color == BAYERRAW12) {
+		unsigned char* bayer8 = NULL;
+		unsigned char* rgb24 = NULL;
+
+		bayer8 = new unsigned char[width*height];
+		rgb24 = new unsigned char[width*height * 3];
+		
+		unsigned char* bayer8_line = bayer8;
+		unsigned char* bayer8_cur = bayer8;
+		for (j = 0; j < height; j++) {
+			bayer8_cur = bayer8_line;
+			for (i = 0; i < width; i++) {
+				(*bayer8_cur) = ((y[j*width * 2 + i * 2 + 1] << 8) | y[j*width * 2 + i * 2]) >> 4; bayer8_cur++;
+			}
+			bayer8_line += width;
+		}
+		v4lconvert_bayer_to_bgr24(bayer8, rgb24, width, height, V4L2_PIX_FMT_SBGGR8);
+		unsigned char* rgb24_line = rgb24;
+		unsigned char* rgb24_cur = rgb24;
+		for (j = 0; j < height; j++) {
+			rgb24_cur = rgb24_line;
+			cur = line;
+			for (i = 0; i < width; i++) {
+				(*cur) = *rgb24_cur; rgb24_cur++; cur++;
+				(*cur) = *rgb24_cur; rgb24_cur++; cur++;
+				(*cur) = *rgb24_cur; rgb24_cur++; cur += 2;
+			}
+			line += t_width << 2;
+			rgb24_line += width * 3;
+		}
+
+		if (rgb24 != NULL) delete rgb24;
+		if (bayer8 != NULL) delete bayer8;
+	}
+
+	else if (m_color == BAYERRAW16) {
+		unsigned char* bayer8 = NULL;
+		unsigned char* rgb24 = NULL;
+
+		bayer8 = new unsigned char[width*height];
+		rgb24 = new unsigned char[width*height * 3];
+
+		unsigned char* bayer8_line = bayer8;
+		unsigned char* bayer8_cur = bayer8;
+		for (j = 0; j < height; j++) {
+			bayer8_cur = bayer8_line;
+			for (i = 0; i < width; i++) {
+				(*bayer8_cur) = y[j*width * 2 + i * 2 + 1]; bayer8_cur++;
+			}
+			bayer8_line += width;
+		}
+		v4lconvert_bayer_to_bgr24(bayer8, rgb24, width, height, V4L2_PIX_FMT_SBGGR8);
+		unsigned char* rgb24_line = rgb24;
+		unsigned char* rgb24_cur = rgb24;
+		for (j = 0; j < height; j++) {
+			rgb24_cur = rgb24_line;
+			cur = line;
+			for (i = 0; i < width; i++) {
+				(*cur) = *rgb24_cur; rgb24_cur++; cur++;
+				(*cur) = *rgb24_cur; rgb24_cur++; cur++;
+				(*cur) = *rgb24_cur; rgb24_cur++; cur += 2;
+			}
+			line += t_width << 2;
+			rgb24_line += width * 3;
+		}
+
+		if (rgb24 != NULL) delete rgb24;
+		if (bayer8 != NULL) delete bayer8;
 	}
 
 	else { // YYY

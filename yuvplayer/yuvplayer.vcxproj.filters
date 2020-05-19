@@ -33,6 +33,9 @@
     <ClCompile Include="yuvplayerDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="v4lconvert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GoDialog.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="yuvplayerDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="v4lconvert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
