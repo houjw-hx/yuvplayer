@@ -55,40 +55,41 @@
 #define ID_COLOR_RGB32                  40011
 #define ID_COLOR_RGB24                  40012
 #define ID_COLOR_RGB16                  40013
-#define ID_COLOR_Y_10LE                 40014
-#define ID_COLOR_Y_10BE                 40015
-#define ID_COLOR_RAW12                  40016
-#define ID_COLOR_RAW16                  40017
-#define ID_COLOR_BAYERRAW12             40018
-#define ID_COLOR_BAYERRAW16             40019
-#define ID_COLOR_END                    40019
+#define ID_COLOR_BGR					40014
+#define ID_COLOR_Y_10LE                 40015
+#define ID_COLOR_Y_10BE                 40016
+#define ID_COLOR_RAW12                  40017
+#define ID_COLOR_RAW16                  40018
+#define ID_COLOR_BAYERRAW12             40019
+#define ID_COLOR_BAYERRAW16             40020
+#define ID_COLOR_END                    40020
 
-#define ID_SIZE_START                   40020
-#define ID_SIZE_HD                      40020
-#define ID_SIZE_SD                      40021
-#define ID_SIZE_VGA                     40022
-#define ID_SIZE_WVGA                    40023
-#define ID_SIZE_WQVGA                   40024
-#define ID_SIZE_CIF                     40025
-#define ID_SIZE_QCIF                    40026
-#define ID_SIZE_192X256                 40027
-#define ID_SIZE_CUSTOM                  40028
-#define ID_SIZE_4K                      40029
-#define ID_SIZE_END                     40029
+#define ID_SIZE_START                   41020
+#define ID_SIZE_HD                      41020
+#define ID_SIZE_SD                      41021
+#define ID_SIZE_VGA                     41022
+#define ID_SIZE_WVGA                    41023
+#define ID_SIZE_WQVGA                   41024
+#define ID_SIZE_CIF                     41025
+#define ID_SIZE_QCIF                    41026
+#define ID_SIZE_192X256                 41027
+#define ID_SIZE_CUSTOM                  41028
+#define ID_SIZE_4K                      41029
+#define ID_SIZE_END                     41029
 
-#define ID_ZOOM_START                   40040
-#define ID_ZOOM_41                      40040
-#define ID_ZOOM_21                      40041
-#define ID_ZOOM_11                      40042
-#define ID_ZOOM_12                      40043
-#define ID_ZOOM_14                      40044
-#define ID_ZOOM_END                     40044
+#define ID_ZOOM_START                   42040
+#define ID_ZOOM_41                      42040
+#define ID_ZOOM_21                      42041
+#define ID_ZOOM_11                      42042
+#define ID_ZOOM_12                      42043
+#define ID_ZOOM_14                      42044
+#define ID_ZOOM_END                     42044
 
-#define ID_SEGMENT_START                40060
-#define ID_SEGMENT_64X64                40060
-#define ID_SEGMENT_32X32                40061
-#define ID_SEGMENT_16X16                40062
-#define ID_SEGMENT_END                  40062
+#define ID_SEGMENT_START                43060
+#define ID_SEGMENT_64X64                43060
+#define ID_SEGMENT_32X32                43061
+#define ID_SEGMENT_16X16                43062
+#define ID_SEGMENT_END                  43062
 
 // Next default values for new objects
 // 

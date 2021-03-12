@@ -217,6 +217,7 @@ BEGIN
         MENUITEM "RGB32",                       ID_COLOR_RGB32
         MENUITEM "RGB24",                       ID_COLOR_RGB24
         MENUITEM "RGB16",                       ID_COLOR_RGB16
+        MENUITEM "BGR",                         ID_COLOR_BGR
         MENUITEM SEPARATOR
         MENUITEM "RAW12(LE)",                   ID_COLOR_RAW12
         MENUITEM "RAW16(LE)",                   ID_COLOR_RAW16
